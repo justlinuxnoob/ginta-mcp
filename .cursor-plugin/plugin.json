@@ -1,0 +1,19 @@
+{
+  "name": "ginta",
+  "description": "Build, publish and edit websites for small businesses from your AI chat: pages, contact forms, menus, bookings, visitor stats and custom domains, hosted on yourname.ginta.page.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Povilas Adomas Brukas",
+    "url": "https://ginta.app"
+  },
+  "homepage": "https://ginta.app",
+  "repository": "https://github.com/justlinuxnoob/ginta-mcp",
+  "license": "MIT",
+  "keywords": [
+    "website builder",
+    "hosting",
+    "mcp",
+    "small business"
+  ],
+  "logo": "logo-400.png"
+}

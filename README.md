@@ -50,7 +50,7 @@ Then run `/mcp`, choose **ginta → Authenticate** and sign in in your browser.
 }
 ```
 
-(Cursor uses `"url"` alone, without `"type"`.) For a client that only runs local (stdio) servers, use [`mcp-remote`](https://www.npmjs.com/package/mcp-remote), which handles the OAuth sign-in:
+(Cursor uses `"url"` alone, without `"type"`.) One-click for Cursor: [Add Ginta to Cursor](cursor://anysphere.cursor-deeplink/mcp/install?name=ginta&config=eyJ1cmwiOiJodHRwczovL2dpbnRhLmFwcC9tY3AifQ==); the same config is in [`.mcp.json`](.mcp.json). For a client that only runs local (stdio) servers, use [`mcp-remote`](https://www.npmjs.com/package/mcp-remote), which handles the OAuth sign-in:
 
 ```json
 {
@@ -88,4 +88,4 @@ Then run `/mcp`, choose **ginta → Authenticate** and sign in in your browser.
 
 ## About this repository
 
-This repository holds the public listing material for Ginta's MCP server (connection instructions, logo, registry `server.json`). The server itself is hosted by Ginta; its source code is not public. Support: support@ginta.app
+This repository holds the public listing material for Ginta's MCP server: connection instructions, logo, the official registry's `server.json`, `.mcp.json` + `.cursor-plugin/plugin.json` (cursor.directory) and `lhm.plugin.json` (LobeHub). The server itself is hosted by Ginta; its source code is not public. Support: support@ginta.app

@@ -1,0 +1,2056 @@
+{
+  "author": "Povilas Adomas Brukas",
+  "authorUrl": "https://ginta.app",
+  "cloudEndpoint": "https://ginta.app/mcp",
+  "description": "Build and host websites from Claude, ChatGPT or Claude Code. Your AI writes the site, Ginta publishes it live on yourname.ginta.page. Includes working forms, menus, bookings, blogs, an owner /admin, encrypted API keys and build uploads. OAuth sign-in, free tier.",
+  "homepage": "https://ginta.app/website-builder-mcp/",
+  "icon": "https://ginta.app/logo.png",
+  "identifier": "justlinuxnoob-ginta-mcp",
+  "name": "Ginta",
+  "prompts": [],
+  "resources": [],
+  "tags": [
+    "website builder",
+    "ai",
+    "no-code",
+    "mcp",
+    "hosting",
+    "small business"
+  ],
+  "tools": [
+    {
+      "name": "get_guide",
+      "title": "Read the Ginta building guide",
+      "description": "Returns Ginta's building guide: how Ginta sites work, the design brief, functional blocks and SEO. Use before building or editing a site. topic \"developers\" = file uploads, builds, redirects and API connections only; \"modules\" = the live parts.",
+      "inputSchema": {
+        "type": "object",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "topic": {
+            "description": "Default all.",
+            "type": "string",
+            "enum": [
+              "all",
+              "design",
+              "blocks",
+              "editing",
+              "seo",
+              "modules",
+              "developers"
+            ]
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false,
+        "title": "Read the Ginta building guide"
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "topic": {
+            "type": "string",
+            "description": "The topic returned (all, design, blocks, editing, seo, modules, developers)."
+          },
+          "chars": {
+            "type": "number",
+            "description": "Length of the guide text, which is in the text content."
+          },
+          "docs_url": {
+            "type": "string",
+            "description": "Ginta's documentation with examples."
+          }
+        },
+        "required": [
+          "topic",
+          "chars",
+          "docs_url"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "list_sites",
+      "title": "The user's websites, plan and limits",
+      "description": "Use when you need a site_id, or the user asks about their websites, plan, limits, credits or page views. Lists every site with its URL and form message count, plus what the plan allows.",
+      "inputSchema": {
+        "type": "object",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {}
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false,
+        "title": "The user's websites, plan and limits"
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "account": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "description": "The signed-in account's email."
+              },
+              "plan": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "price_eur_per_month": {
+                    "type": "number"
+                  },
+                  "paid": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "price_eur_per_month",
+                  "paid"
+                ],
+                "additionalProperties": {},
+                "description": "The account's plan."
+              },
+              "websites": {
+                "type": "object",
+                "properties": {
+                  "used": {
+                    "type": "number"
+                  },
+                  "limit": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "used",
+                  "limit"
+                ],
+                "additionalProperties": {},
+                "description": "Websites used and allowed."
+              },
+              "custom_domains": {
+                "type": "object",
+                "properties": {
+                  "used": {
+                    "type": "number"
+                  },
+                  "limit": {
+                    "type": "number"
+                  },
+                  "extra": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "used",
+                  "limit",
+                  "extra"
+                ],
+                "additionalProperties": {},
+                "description": "Own domains used and allowed."
+              },
+              "files_per_website": {
+                "type": "object",
+                "properties": {
+                  "max_files": {
+                    "type": "number"
+                  },
+                  "max_total_mb": {
+                    "type": "number"
+                  },
+                  "max_file_mb": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "max_files",
+                  "max_total_mb",
+                  "max_file_mb"
+                ],
+                "additionalProperties": {},
+                "description": "File limits per website."
+              },
+              "credits": {
+                "type": "object",
+                "properties": {
+                  "balance": {
+                    "type": "number"
+                  },
+                  "note": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "balance",
+                  "note"
+                ],
+                "additionalProperties": {},
+                "description": "Credits for Ginta's own in-app AI."
+              },
+              "page_views_this_month": {
+                "type": "object",
+                "properties": {
+                  "used": {
+                    "type": "number"
+                  },
+                  "fair_use_limit": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "used",
+                  "fair_use_limit"
+                ],
+                "additionalProperties": {},
+                "description": "Page views of all websites this month."
+              },
+              "assistant_limits": {
+                "type": "object",
+                "properties": {
+                  "new_websites_per_day": {
+                    "type": "number"
+                  },
+                  "changes_per_hour": {
+                    "type": "number"
+                  },
+                  "previews_per_day": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "new_websites_per_day",
+                  "changes_per_hour",
+                  "previews_per_day"
+                ],
+                "additionalProperties": {},
+                "description": "Limits for these tools."
+              },
+              "upgrade_url": {
+                "type": "string",
+                "description": "Ginta's pricing page."
+              },
+              "admin_users_per_website": {
+                "type": "number",
+                "description": "Admin users allowed per website."
+              }
+            },
+            "required": [
+              "email",
+              "plan",
+              "websites",
+              "custom_domains",
+              "files_per_website",
+              "credits",
+              "page_views_this_month",
+              "assistant_limits",
+              "upgrade_url",
+              "admin_users_per_website"
+            ],
+            "additionalProperties": {},
+            "description": "Plan, limits and usage of the signed-in account."
+          },
+          "sites": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "site_id": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "url": {
+                  "type": "string"
+                },
+                "admin_url": {
+                  "type": "string"
+                },
+                "domain": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "status": {
+                  "type": "string"
+                },
+                "role": {
+                  "type": "string"
+                },
+                "messages": {
+                  "type": "number"
+                },
+                "updated_at": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "badge": {
+                  "type": "object",
+                  "properties": {
+                    "shows": {
+                      "type": "boolean"
+                    },
+                    "text": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "because": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "shows",
+                    "text",
+                    "because"
+                  ],
+                  "additionalProperties": {},
+                  "description": "The \"Made with Ginta\" badge: whether it shows and why."
+                }
+              },
+              "required": [
+                "site_id",
+                "title",
+                "url",
+                "admin_url",
+                "domain",
+                "status",
+                "role",
+                "messages",
+                "updated_at",
+                "badge"
+              ],
+              "additionalProperties": {}
+            },
+            "description": "Every website of the account."
+          }
+        },
+        "required": [
+          "account",
+          "sites"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "check_name",
+      "title": "Check if a site name is free",
+      "description": "Use before create_site when the user wants a specific address (https://<name>.ginta.page); suggests alternatives if taken. \"Bella Roma\" becomes \"bella-roma\".",
+      "inputSchema": {
+        "type": "object",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 80,
+            "description": "Wanted name, e.g. the business name."
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false,
+        "title": "Check if a site name is free"
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name as a site id (lowercase, hyphens)."
+          },
+          "available": {
+            "type": "boolean",
+            "description": "Whether https://<name>.ginta.page is free."
+          },
+          "reason": {
+            "description": "Why not, if taken or not allowed.",
+            "type": "string"
+          },
+          "suggestions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Free alternatives."
+          }
+        },
+        "required": [
+          "name",
+          "available"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "get_site",
+      "title": "Read a site: files and versions",
+      "description": "Use before editing an existing site, or when the owner wants their code: returns its files (text contents; images and fonts as a list with their addresses), and with history: true its saved versions for restore_version. Pass paths to read only some files. (In Ginta, owners on Hosting Plus, Hosting Studio, Pro, Agency can also download everything as a .zip from the website's ⋯ menu.)",
+      "inputSchema": {
+        "type": "object",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "site_id": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "The site id: the first part of the site URL, e.g. \"bella-roma\" for https://bella-roma.ginta.page (see list_sites)."
+          },
+          "paths": {
+            "description": "Only these files (default: all text files, if the site isn't too large).",
+            "maxItems": 50,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          "history": {
+            "description": "Also list the last 20 saved versions.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "site_id"
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false,
+        "title": "Read a site: files and versions"
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "site_id": {
+            "type": "string",
+            "description": "The site id."
+          },
+          "url": {
+            "type": "string",
+            "description": "The site's address."
+          },
+          "version": {
+            "type": "number",
+            "description": "The live version."
+          },
+          "total_bytes": {
+            "type": "number",
+            "description": "Size of all files."
+          },
+          "notify_email": {
+            "description": "Form messages go here (null = the account email).",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string"
+                },
+                "size": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "path",
+                "size"
+              ],
+              "additionalProperties": {}
+            },
+            "description": "Text files returned (their contents are in the text content)."
+          },
+          "assets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string"
+                },
+                "size": {
+                  "type": "number"
+                },
+                "url": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "path",
+                "size",
+                "url"
+              ],
+              "additionalProperties": {}
+            },
+            "description": "Images, fonts and other binary files."
+          },
+          "complete": {
+            "type": "boolean",
+            "description": "false = the site is too large; ask for specific paths."
+          },
+          "versions": {
+            "description": "Saved versions (with history: true).",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "version": {
+                  "type": "number"
+                },
+                "saved_at": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "note": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "files": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "version",
+                "saved_at",
+                "note",
+                "files"
+              ],
+              "additionalProperties": {}
+            }
+          }
+        },
+        "required": [
+          "site_id",
+          "url",
+          "version",
+          "total_bytes",
+          "notify_email",
+          "files",
+          "assets",
+          "complete"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "get_stats",
+      "title": "Visitors, speed and SEO of a site",
+      "description": "Use when the user asks how many visitors their site gets or how fast and well-built it is: views per day (30 days), top pages, referring websites, and the phone scores (performance, accessibility, best practices, SEO) with the issues to fix.",
+      "inputSchema": {
+        "type": "object",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "site_id": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "The site id: the first part of the site URL, e.g. \"bella-roma\" for https://bella-roma.ginta.page (see list_sites)."
+          }
+        },
+        "required": [
+          "site_id"
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false,
+        "title": "Visitors, speed and SEO of a site"
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "visitors": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "number"
+              },
+              "today": {
+                "type": "number"
+              },
+              "per_day": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "day": {
+                      "type": "string"
+                    },
+                    "views": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "day",
+                    "views"
+                  ],
+                  "additionalProperties": {}
+                }
+              },
+              "top_pages": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "path": {
+                      "type": "string"
+                    },
+                    "views": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "path",
+                    "views"
+                  ],
+                  "additionalProperties": {}
+                }
+              },
+              "referrers": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "domain": {
+                      "type": "string"
+                    },
+                    "views": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "domain",
+                    "views"
+                  ],
+                  "additionalProperties": {}
+                }
+              }
+            },
+            "required": [
+              "total",
+              "today",
+              "per_day",
+              "top_pages",
+              "referrers"
+            ],
+            "additionalProperties": {},
+            "description": "Page views in the last 30 days."
+          },
+          "speed": {
+            "type": "object",
+            "properties": {
+              "site_id": {
+                "type": "string"
+              },
+              "checked": {
+                "type": "boolean"
+              },
+              "scores": {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": {}
+              },
+              "issues": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {},
+                  "additionalProperties": {}
+                }
+              },
+              "below_target": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Scores below Ginta's target."
+              }
+            },
+            "required": [
+              "site_id",
+              "checked"
+            ],
+            "additionalProperties": {},
+            "description": "The latest phone speed check (PageSpeed scores and issues)."
+          }
+        },
+        "required": [
+          "visitors",
+          "speed"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "create_site",
+      "title": "Publish a new website",
+      "description": "Publishes a NEW website in the user's account and returns its URL; building one takes about 1–3 minutes. Takes the files you designed (index.html required; see get_guide), or no files to get an upload link for a build. Pages should hold only real details the user gave (phone numbers, addresses, prices, reviews). note is required: what you built and why.",
+      "inputSchema": {
+        "type": "object",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "name": {
+            "description": "Site name for the URL (optional; random if omitted).",
+            "type": "string",
+            "maxLength": 80
+          },
+          "files": {
+            "description": "All files of the site (index.html required). Omit to get an upload link for a .zip build instead.",
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "maxLength": 200,
+                  "description": "File path, e.g. \"index.html\", \"about.html\", \"css/style.css\", \"img/logo.png\"."
+                },
+                "content": {
+                  "description": "Text content (HTML, CSS, JS, JSON, SVG…).",
+                  "type": "string"
+                },
+                "content_base64": {
+                  "description": "Binary files (images, fonts, PDF…): the bytes, base64-encoded.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "path"
+              ]
+            }
+          },
+          "notify_email": {
+            "description": "Only if form messages should go to another address than the owner's Ginta account email (the default, every plan).",
+            "type": "string",
+            "maxLength": 254
+          },
+          "layout": {
+            "description": "The layout idea from get_guide section 4 closest to your page, or \"custom\".",
+            "type": "string",
+            "enum": [
+              "photo-hero",
+              "split-hero",
+              "centered-statement",
+              "editorial",
+              "bold-type",
+              "card-grid",
+              "minimal-column",
+              "gallery-first",
+              "local-utility",
+              "story-bands",
+              "dark-luxe",
+              "custom"
+            ]
+          },
+          "aesthetic": {
+            "description": "The named art direction from your brief, e.g. \"1970s municipal pool signage\".",
+            "type": "string",
+            "maxLength": 80
+          },
+          "fonts": {
+            "description": "Font families used, e.g. \"Anton / Work Sans\".",
+            "type": "string",
+            "maxLength": 60
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "REQUIRED. 1–2 plain sentences: what you changed and why, e.g. \"Rebuilt the menu page, added lunch prices, moved contact to the footer.\" The owner sees it in Ginta's editor; Ginta's own AI reads it."
+          }
+        },
+        "required": [
+          "note"
+        ]
+      },
+      "annotations": {
+        "title": "Publish a new website",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "The new site's address."
+          },
+          "site_id": {
+            "type": "string",
+            "description": "The new site's id."
+          },
+          "version": {
+            "description": "The live version (1).",
+            "type": "number"
+          },
+          "notify_email": {
+            "description": "Another address for form messages, if set.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Things to look at."
+          },
+          "notices": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Sentences to tell the owner word for word."
+          },
+          "check": {
+            "type": "object",
+            "properties": {
+              "problems": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Things that don't work: fix them."
+              },
+              "notes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Things worth telling the owner."
+              },
+              "empty": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Parts the owner asked for that are still empty."
+              },
+              "failed": {
+                "description": "The check itself couldn't run.",
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "problems",
+              "notes"
+            ],
+            "additionalProperties": {},
+            "description": "Ginta's visitor check of the site: forms, parts, links."
+          },
+          "upload": {
+            "description": "When no files were sent: the upload link for a .zip build.",
+            "type": "object",
+            "properties": {
+              "site_id": {
+                "type": "string",
+                "description": "The site id."
+              },
+              "upload_url": {
+                "type": "string",
+                "description": "Where to POST the .zip (works 15 minutes)."
+              },
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "replace",
+                  "merge"
+                ],
+                "description": "replace = the zip becomes the whole site; merge = adds/replaces files."
+              },
+              "expires_at": {
+                "type": "string",
+                "description": "When the link stops working (ISO time)."
+              },
+              "max_zip_mb": {
+                "type": "number",
+                "description": "Largest .zip accepted, in MB."
+              },
+              "command": {
+                "type": "string",
+                "description": "Shell command that zips dist/ and uploads it."
+              }
+            },
+            "required": [
+              "site_id",
+              "upload_url",
+              "mode",
+              "expires_at",
+              "max_zip_mb",
+              "command"
+            ],
+            "additionalProperties": {}
+          }
+        },
+        "required": [
+          "url",
+          "site_id"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "update_site",
+      "title": "Change a website",
+      "description": "Changes an existing site's pages: small find/replace edits (preferred), whole files, deleted files, or the form email; a change takes about 1–3 minutes. All changes apply together as one new version (undo with restore_version). note is required: what you changed and why.",
+      "inputSchema": {
+        "type": "object",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "site_id": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "The site id: the first part of the site URL, e.g. \"bella-roma\" for https://bella-roma.ginta.page (see list_sites)."
+          },
+          "edits": {
+            "description": "Find/replace edits (preferred).",
+            "maxItems": 60,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "maxLength": 200,
+                  "description": "File to change, e.g. \"index.html\"."
+                },
+                "find": {
+                  "type": "string",
+                  "description": "Exact text currently in the file (must occur once; include a bit of surrounding text to make it unique)."
+                },
+                "replace": {
+                  "type": "string",
+                  "description": "Text to put instead (empty string deletes)."
+                },
+                "replace_all": {
+                  "description": "Replace every occurrence instead of requiring a unique match.",
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "path",
+                "find",
+                "replace"
+              ]
+            }
+          },
+          "files": {
+            "description": "Whole files to add or replace (only the changed ones).",
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "maxLength": 200,
+                  "description": "File path, e.g. \"index.html\", \"about.html\", \"css/style.css\", \"img/logo.png\"."
+                },
+                "content": {
+                  "description": "Text content (HTML, CSS, JS, JSON, SVG…).",
+                  "type": "string"
+                },
+                "content_base64": {
+                  "description": "Binary files (images, fonts, PDF…): the bytes, base64-encoded.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "path"
+              ]
+            }
+          },
+          "delete": {
+            "description": "Paths of files to delete (not index.html).",
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          "notify_email": {
+            "description": "Another address for form messages (\"\" = back to the account email).",
+            "type": "string",
+            "maxLength": 254
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "REQUIRED. 1–2 plain sentences: what you changed and why, e.g. \"Rebuilt the menu page, added lunch prices, moved contact to the footer.\" The owner sees it in Ginta's editor; Ginta's own AI reads it."
+          }
+        },
+        "required": [
+          "site_id",
+          "note"
+        ]
+      },
+      "annotations": {
+        "title": "Change a website",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "site_id": {
+            "type": "string",
+            "description": "The site id."
+          },
+          "url": {
+            "type": "string",
+            "description": "The site's address."
+          },
+          "version": {
+            "type": "number",
+            "description": "The new live version number."
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Things to look at (the change was saved)."
+          },
+          "notices": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Sentences to tell the owner word for word."
+          },
+          "check": {
+            "type": "object",
+            "properties": {
+              "problems": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Things that don't work: fix them."
+              },
+              "notes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Things worth telling the owner."
+              },
+              "empty": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Parts the owner asked for that are still empty."
+              },
+              "failed": {
+                "description": "The check itself couldn't run.",
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "problems",
+              "notes"
+            ],
+            "additionalProperties": {},
+            "description": "Ginta's visitor check of the site: forms, parts, links."
+          },
+          "changed": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Files changed."
+          },
+          "deleted": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Files deleted."
+          },
+          "notify_email": {
+            "description": "Where form messages go (null = the account email).",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "site_id",
+          "url",
+          "version",
+          "warnings",
+          "notices",
+          "check",
+          "changed",
+          "deleted",
+          "notify_email"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "upload_files",
+      "title": "Upload many files (images, fonts, a build)",
+      "description": "Use for images, fonts and other binary files, many files at once, or a whole build (Vite/Astro/Next export): send files (text, base64 or a link), or no files to get an upload link you POST a .zip of the build to with curl. note is required: what you changed and why.",
+      "inputSchema": {
+        "type": "object",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "site_id": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "The site id: the first part of the site URL, e.g. \"bella-roma\" for https://bella-roma.ginta.page (see list_sites)."
+          },
+          "files": {
+            "description": "Files to add or replace. Omit to get an upload link for a .zip.",
+            "maxItems": 200,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "maxLength": 200,
+                  "description": "File path, e.g. \"index.html\", \"about.html\", \"css/style.css\", \"img/logo.png\"."
+                },
+                "content": {
+                  "description": "Text content (HTML, CSS, JS, JSON, SVG…).",
+                  "type": "string"
+                },
+                "content_base64": {
+                  "description": "Binary files (images, fonts, PDF…): the bytes, base64-encoded.",
+                  "type": "string"
+                },
+                "url": {
+                  "description": "Instead of content: a public link Ginta downloads (an image, a font, a file on GitHub…).",
+                  "type": "string",
+                  "maxLength": 2000
+                }
+              },
+              "required": [
+                "path"
+              ]
+            }
+          },
+          "delete": {
+            "description": "Paths to delete.",
+            "maxItems": 500,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          "replace_all": {
+            "description": "The upload becomes the whole site: files not in it are deleted (for a fresh build). Default false (merge).",
+            "type": "boolean"
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "REQUIRED. 1–2 plain sentences: what you changed and why, e.g. \"Rebuilt the menu page, added lunch prices, moved contact to the footer.\" The owner sees it in Ginta's editor; Ginta's own AI reads it."
+          }
+        },
+        "required": [
+          "site_id",
+          "note"
+        ]
+      },
+      "annotations": {
+        "title": "Upload many files (images, fonts, a build)",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "url": {
+            "description": "The site's address (after an upload).",
+            "type": "string"
+          },
+          "version": {
+            "description": "The new live version (after an upload).",
+            "type": "number"
+          },
+          "changed": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Files changed."
+          },
+          "deleted": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Files deleted."
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Things to look at."
+          },
+          "notices": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Sentences to tell the owner word for word."
+          },
+          "check": {
+            "type": "object",
+            "properties": {
+              "problems": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Things that don't work: fix them."
+              },
+              "notes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Things worth telling the owner."
+              },
+              "empty": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Parts the owner asked for that are still empty."
+              },
+              "failed": {
+                "description": "The check itself couldn't run.",
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "problems",
+              "notes"
+            ],
+            "additionalProperties": {},
+            "description": "Ginta's visitor check of the site: forms, parts, links."
+          },
+          "upload_url": {
+            "description": "Without files: where to POST the .zip.",
+            "type": "string"
+          },
+          "command": {
+            "description": "Without files: the command that uploads the build.",
+            "type": "string"
+          },
+          "expires_at": {
+            "type": "string"
+          },
+          "max_zip_mb": {
+            "type": "number"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "replace",
+              "merge"
+            ]
+          }
+        },
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "restore_version",
+      "title": "Undo: restore a previous version",
+      "description": "Use to undo changes: restores a saved version (numbers from get_site with history: true) as a new version, so it can itself be undone.",
+      "inputSchema": {
+        "type": "object",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "site_id": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "The site id: the first part of the site URL, e.g. \"bella-roma\" for https://bella-roma.ginta.page (see list_sites)."
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991,
+            "description": "Version number to restore."
+          }
+        },
+        "required": [
+          "site_id",
+          "version"
+        ]
+      },
+      "annotations": {
+        "title": "Undo: restore a previous version",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "The site's address."
+          },
+          "version": {
+            "type": "number",
+            "description": "The new live version."
+          },
+          "restored_from": {
+            "type": "number",
+            "description": "The version that was restored."
+          }
+        },
+        "required": [
+          "url",
+          "version",
+          "restored_from"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "preview_site",
+      "title": "Look at a site (screenshots)",
+      "description": "Use after create_site or a bigger change to see the page like a visitor: desktop (1280 px, top to bottom) and phone (390 px) screenshots of one page. Limited per day by plan; if none are left, review the HTML instead.",
+      "inputSchema": {
+        "type": "object",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "site_id": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "The site id: the first part of the site URL, e.g. \"bella-roma\" for https://bella-roma.ginta.page (see list_sites)."
+          },
+          "page": {
+            "description": "Page to look at, e.g. \"menu\" (default: the home page).",
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "site_id"
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false,
+        "title": "Look at a site (screenshots)"
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "The page that was looked at."
+          },
+          "available": {
+            "type": "boolean",
+            "description": "false = no screenshots right now; review the HTML instead."
+          },
+          "version": {
+            "description": "The live version.",
+            "type": "number"
+          },
+          "desktop_images": {
+            "description": "Desktop screenshots (images in the content).",
+            "type": "number"
+          },
+          "phone_images": {
+            "description": "Phone screenshots (images in the content).",
+            "type": "number"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Problems the browser reported."
+          }
+        },
+        "required": [
+          "url",
+          "available"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "attach_image",
+      "title": "Put the owner's photo or logo online",
+      "description": "Use for the owner's own photos and logo in business sites and module content (menu, shop, gallery, blog): copies one image (a public link or base64) into their account and returns a /_g/u/… path to use in HTML or module data.",
+      "inputSchema": {
+        "type": "object",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "url": {
+            "description": "Public http(s) link to the image file.",
+            "type": "string",
+            "maxLength": 2000
+          },
+          "data_base64": {
+            "description": "The image file itself, base64-encoded (instead of url).",
+            "type": "string",
+            "maxLength": 7000000
+          },
+          "filename": {
+            "description": "Original file name, e.g. \"logo.png\".",
+            "type": "string",
+            "maxLength": 100
+          }
+        }
+      },
+      "annotations": {
+        "title": "Put the owner's photo or logo online",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Path to use in HTML or module data, e.g. /_g/u/abc.webp."
+          },
+          "url": {
+            "type": "string",
+            "description": "Full address of the image."
+          },
+          "width": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "height": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "bytes": {
+            "type": "number"
+          },
+          "type": {
+            "type": "string",
+            "description": "Image type."
+          }
+        },
+        "required": [
+          "path",
+          "url",
+          "width",
+          "height",
+          "bytes",
+          "type"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "get_messages",
+      "title": "Read the site's form messages",
+      "description": "Use when the user asks for their form messages, enquiries or contact requests: messages visitors sent through the site's forms, newest first. They hold visitors' personal data, for the site's owner.",
+      "inputSchema": {
+        "type": "object",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "site_id": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "The site id: the first part of the site URL, e.g. \"bella-roma\" for https://bella-roma.ginta.page (see list_sites)."
+          },
+          "limit": {
+            "description": "How many (default 50).",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200
+          }
+        },
+        "required": [
+          "site_id"
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false,
+        "title": "Read the site's form messages"
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "site_id": {
+            "type": "string",
+            "description": "The site id."
+          },
+          "total": {
+            "type": "number",
+            "description": "All messages of the site."
+          },
+          "submissions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "received_at": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "unread": {
+                  "type": "boolean"
+                },
+                "fields": {
+                  "type": "object",
+                  "propertyNames": {
+                    "type": "string"
+                  },
+                  "additionalProperties": {}
+                }
+              },
+              "required": [
+                "id",
+                "received_at",
+                "unread",
+                "fields"
+              ],
+              "additionalProperties": {}
+            },
+            "description": "Messages, newest first."
+          }
+        },
+        "required": [
+          "site_id",
+          "total",
+          "submissions"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "manage_module",
+      "title": "Live parts: menu, bookings, shop, blog…",
+      "description": "Use to set up or change the live parts the owner manages (prices, bookings, products, posts, photos, events, quote requests, notices), without rewriting pages. Modules and actions: collections (list, define, get, save_item, delete_item, import, delete_collection); announcements (list, post, setup, delete); menu (get, setup, save_item, delete_item); gallery (get, add_photos, delete_photo); blog (list, save, delete); bookings (get, setup, list, cancel, add_days_off); catalog (get, setup, save_product, delete_product, list_orders); quote (setup, list, update); events (list, save, cancel, list_signups). action \"help\" shows a module's fields; omit module to see what the plan includes.",
+      "inputSchema": {
+        "type": "object",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "site_id": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "The site id: the first part of the site URL, e.g. \"bella-roma\" for https://bella-roma.ginta.page (see list_sites)."
+          },
+          "module": {
+            "description": "Which module (omit to list them all for this site).",
+            "type": "string",
+            "enum": [
+              "collections",
+              "announcements",
+              "menu",
+              "gallery",
+              "blog",
+              "bookings",
+              "catalog",
+              "quote",
+              "events"
+            ]
+          },
+          "action": {
+            "description": "What to do, e.g. \"setup\", \"get\", \"list\", \"save_item\" (see above); \"help\" for the fields.",
+            "type": "string",
+            "maxLength": 40
+          },
+          "data": {
+            "description": "The action's fields (see help), e.g. for menu setup {\"sections\": [...]}.",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          }
+        },
+        "required": [
+          "site_id"
+        ]
+      },
+      "annotations": {
+        "title": "Live parts: menu, bookings, shop, blog…",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": {},
+        "description": "Depends on the call: without module, { site_id, modules: [{ id, name, included, active, snippet }] }; with help, { module, actions: [{ action, read_only }] }; otherwise the action's own result (e.g. the saved item or a list)."
+      }
+    },
+    {
+      "name": "manage_admins",
+      "title": "Who can manage a website at its /admin",
+      "description": "Use when the owner says who should keep the website up to date (e.g. \"add maria@salon.lt as admin\"), for example after building a site with parts the owner fills in. Admin users sign in at <website>/admin with their email and a password (no Ginta account) and change its lists, menu, bookings… and read its messages; never the design or code. add: with a password the owner chose, or without one (they get an email to choose their own). set_password: for an admin user, or the owner's own email to give the owner a password for this site. send_setup_link: a new \"choose your password\" email.",
+      "inputSchema": {
+        "type": "object",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "site_id": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "The site id: the first part of the site URL, e.g. \"bella-roma\" for https://bella-roma.ginta.page (see list_sites)."
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "list",
+              "add",
+              "remove",
+              "set_password",
+              "send_setup_link"
+            ],
+            "description": "What to do: list the admin users, add or remove one, set_password, or send_setup_link (a new choose-your-password email)."
+          },
+          "email": {
+            "description": "Their email address (every action but list).",
+            "type": "string",
+            "maxLength": 254
+          },
+          "password": {
+            "description": "Only if the owner gave one (8+ characters; add, set_password). Never invent one; never repeat it in the chat.",
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "site_id",
+          "action"
+        ]
+      },
+      "annotations": {
+        "title": "Who can manage a website at its /admin",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "admin_url": {
+            "description": "The website's /admin address.",
+            "type": "string"
+          },
+          "admins": {
+            "description": "list: the admin users.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "has_password": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "email",
+                "has_password"
+              ],
+              "additionalProperties": {}
+            }
+          },
+          "limit": {
+            "description": "list: admin users allowed on this plan.",
+            "type": "number"
+          },
+          "email": {
+            "description": "The email acted on.",
+            "type": "string"
+          },
+          "sent": {
+            "description": "Whether an email went out.",
+            "type": "boolean"
+          },
+          "has_admin": {
+            "description": "Whether the site has anything to manage at /admin.",
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": {},
+        "description": "Depends on the action (list, add, remove, set_password, send_setup_link)."
+      }
+    },
+    {
+      "name": "manage_secrets",
+      "title": "API keys of a site (write-only)",
+      "description": "Use when the site needs an API key (weather, CRM, maps…): set stores it encrypted, list shows names only, delete removes one. Values can never be read back, by you or anyone; use them through manage_connections.",
+      "inputSchema": {
+        "type": "object",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "site_id": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "The site id: the first part of the site URL, e.g. \"bella-roma\" for https://bella-roma.ginta.page (see list_sites)."
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "list",
+              "set",
+              "delete"
+            ],
+            "description": "What to do: list the names, set (save or replace) one, or delete one."
+          },
+          "name": {
+            "description": "Secret name in capitals, e.g. \"WEATHER_API_KEY\" (set, delete).",
+            "type": "string",
+            "maxLength": 64
+          },
+          "value": {
+            "description": "The key itself (set only). Ask the user to paste it; never invent one.",
+            "type": "string",
+            "maxLength": 4096
+          }
+        },
+        "required": [
+          "site_id",
+          "action"
+        ]
+      },
+      "annotations": {
+        "title": "API keys of a site (write-only)",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": false
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "site_id": {
+            "type": "string",
+            "description": "The site id."
+          },
+          "secrets": {
+            "description": "list: names only, never values.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "set_at": {
+                  "type": "string"
+                },
+                "used_by": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Connections using it."
+                }
+              },
+              "required": [
+                "name",
+                "set_at",
+                "used_by"
+              ],
+              "additionalProperties": {}
+            }
+          },
+          "name": {
+            "description": "set/delete: the secret's name.",
+            "type": "string"
+          },
+          "replaced": {
+            "type": "boolean"
+          },
+          "deleted": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "site_id"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "manage_connections",
+      "title": "Let a site call an API with a secret",
+      "description": "Use when the site's JavaScript must call an outside API: save a connection (name, https base URL, which secret, how it's sent), and the page calls fetch(\"/_ginta/api/<name>/<path>\"); Ginta adds the key and forwards to that base URL only. list shows connections and this month's calls.",
+      "inputSchema": {
+        "type": "object",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "site_id": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "The site id: the first part of the site URL, e.g. \"bella-roma\" for https://bella-roma.ginta.page (see list_sites)."
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "list",
+              "save",
+              "delete"
+            ],
+            "description": "What to do: list the connections, save (add or change) one, or delete one."
+          },
+          "name": {
+            "description": "Connection name, e.g. \"weather\" (save, delete).",
+            "type": "string",
+            "maxLength": 40
+          },
+          "base_url": {
+            "description": "The API's https base URL, e.g. \"https://api.openweathermap.org/data/2.5\".",
+            "type": "string",
+            "maxLength": 500
+          },
+          "secret": {
+            "description": "Name of the secret to attach (from manage_secrets). Omit for public APIs.",
+            "type": "string",
+            "maxLength": 64
+          },
+          "auth": {
+            "description": "How the key is sent: \"bearer\" (Authorization: Bearer, default), \"header\" (auth_name = the header, e.g. X-API-Key) or \"query\" (auth_name = the parameter, e.g. appid).",
+            "type": "string",
+            "enum": [
+              "header",
+              "bearer",
+              "query"
+            ]
+          },
+          "auth_name": {
+            "description": "Header or query parameter name for auth header/query.",
+            "type": "string",
+            "maxLength": 60
+          },
+          "methods": {
+            "description": "Allowed methods (default GET and POST).",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "GET",
+                "POST",
+                "PUT",
+                "PATCH",
+                "DELETE"
+              ]
+            }
+          }
+        },
+        "required": [
+          "site_id",
+          "action"
+        ]
+      },
+      "annotations": {
+        "title": "Let a site call an API with a secret",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": false,
+        "openWorldHint": true
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "site_id": {
+            "type": "string",
+            "description": "The site id."
+          },
+          "connections": {
+            "description": "list: the connections.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "base_url": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "base_url"
+              ],
+              "additionalProperties": {}
+            }
+          },
+          "usage_this_month": {
+            "description": "list: calls this month.",
+            "type": "object",
+            "properties": {
+              "requests": {
+                "type": "number"
+              },
+              "limit": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "requests",
+              "limit"
+            ],
+            "additionalProperties": {}
+          },
+          "name": {
+            "description": "save/delete: the connection's name.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "site_id"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    {
+      "name": "connect_domain",
+      "title": "Connect the user's own domain (or check it)",
+      "description": "Use when the user wants their own domain (e.g. \"bakery.com\") on a site, or asks whether it works yet: with domain it connects it (bakery.com shows the site, www.bakery.com redirects to it) and returns the exact DNS steps for their provider to relay (a record for the domain, a CNAME for www, and a TXT record proving the domain is theirs: the site is not served until it is seen); without domain it checks the status (pending, verifying, active) and whether https://bakery.com opens.",
+      "inputSchema": {
+        "type": "object",
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "properties": {
+          "site_id": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "The site id: the first part of the site URL, e.g. \"bella-roma\" for https://bella-roma.ginta.page (see list_sites)."
+          },
+          "domain": {
+            "description": "The domain, e.g. \"bakery.com\" or \"shop.bakery.com\". Omit to check the current one.",
+            "type": "string",
+            "maxLength": 260
+          },
+          "with_www": {
+            "description": "Only if the user wants www.bakery.com as the main address (bakery.com then redirects to it). Default: bakery.com is the main address.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "site_id"
+        ]
+      },
+      "annotations": {
+        "title": "Connect the user's own domain (or check it)",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true
+      },
+      "outputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "description": "Whether connecting domains is open.",
+            "type": "boolean"
+          },
+          "domain": {
+            "description": "The domain: state (pending, verifying, active, error), records and the steps for its DNS provider; null = none.",
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": {}
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": {}
+      }
+    }
+  ],
+  "version": "1.0.0"
+}
