@@ -1,0 +1,14 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "app.ginta/ginta",
+  "title": "Ginta",
+  "description": "AI website builder: build, publish and edit websites from Claude, ChatGPT or Claude Code.",
+  "version": "1.0.0",
+  "websiteUrl": "https://ginta.app/website-builder-mcp/",
+  "icons": [
+    { "src": "https://ginta.app/logo.png", "mimeType": "image/png", "sizes": ["512x512"] }
+  ],
+  "remotes": [
+    { "type": "streamable-http", "url": "https://ginta.app/mcp" }
+  ]
+}
