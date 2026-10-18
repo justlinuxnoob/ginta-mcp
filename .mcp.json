@@ -1,6 +1,7 @@
 {
   "mcpServers": {
     "ginta": {
+      "type": "http",
       "url": "https://ginta.app/mcp"
     }
   }

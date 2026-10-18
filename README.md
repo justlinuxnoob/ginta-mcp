@@ -1,6 +1,6 @@
-<p align="center"><img src="logo-400.png" width="120" alt="Ginta"></p>
+# [Ginta](https://ginta.app) MCP server
 
-# Ginta MCP server
+<p align="center"><a href="https://ginta.app"><img src="logo-400.png" width="120" alt="Ginta"></a></p>
 
 **AI website maker with hosting, built-in forms and an MCP for Claude and ChatGPT.**
 
@@ -36,6 +36,24 @@ claude mcp add --transport http ginta https://ginta.app/mcp
 ```
 
 Then run `/mcp`, choose **ginta → Authenticate** and sign in in your browser.
+
+Or install it as a Claude Code plugin from this repository:
+
+```bash
+claude plugin marketplace add justlinuxnoob/ginta-mcp
+```
+
+```bash
+claude plugin install ginta@ginta
+```
+
+### Gemini CLI
+
+```bash
+gemini extensions install https://github.com/justlinuxnoob/ginta-mcp
+```
+
+Then run `/mcp auth ginta` inside Gemini CLI and sign in in your browser. The extension is [`gemini-extension.json`](gemini-extension.json).
 
 ### Cline, Cursor and other clients
 
@@ -74,6 +92,7 @@ Then run `/mcp`, choose **ginta → Authenticate** and sign in in your browser.
 | `restore_version` | Undo: bring back an earlier version |
 | `preview_site` | Screenshots so the AI can check the design |
 | `attach_image` | Put your own photo or logo online |
+| `manage_site` | Rename a website, change its address, badge or form emails, mark messages read, delete |
 | `get_messages` | Messages visitors sent through the website's forms |
 | `get_stats` | Visitors, top pages, referrers, speed and SEO scores |
 | `manage_module` | Ready-made parts: menu, bookings, shop, blog, gallery, events, quote requests, announcements |
@@ -88,4 +107,4 @@ Then run `/mcp`, choose **ginta → Authenticate** and sign in in your browser.
 
 ## About this repository
 
-This repository holds the public listing material for Ginta's MCP server: connection instructions, logo, the official registry's `server.json`, `.mcp.json` + `.cursor-plugin/plugin.json` (cursor.directory) and `lhm.plugin.json` (LobeHub). The server itself is hosted by Ginta; its source code is not public. Support: support@ginta.app
+This repository holds the public listing material for Ginta's MCP server: connection instructions, logo, the official registry's `server.json`, `.mcp.json` + `.claude-plugin/plugin.json` (Claude Code plugin), `.cursor-plugin/plugin.json` (Cursor, cursor.directory), `gemini-extension.json` (Gemini CLI) and `lhm.plugin.json` (LobeHub). The server itself is hosted by Ginta; its source code is not public. Support: support@ginta.app

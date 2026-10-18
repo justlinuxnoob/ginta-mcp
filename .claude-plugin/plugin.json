@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "ginta",
+  "displayName": "Ginta",
+  "version": "1.0.0",
+  "description": "Build, publish and edit websites for small businesses from your AI chat: pages, contact forms, menus, bookings, visitor stats and custom domains, hosted on yourname.ginta.page.",
+  "author": {
+    "name": "Povilas Adomas Brukas",
+    "email": "support@ginta.app",
+    "url": "https://ginta.app"
+  },
+  "homepage": "https://ginta.app/website-builder-mcp/",
+  "repository": "https://github.com/justlinuxnoob/ginta-mcp",
+  "license": "MIT",
+  "keywords": [
+    "website-builder",
+    "hosting",
+    "mcp",
+    "small-business",
+    "no-code"
+  ],
+  "icon": "./logo-400.png",
+  "documentationUrl": "https://ginta.app/docs/",
+  "supportUrl": "https://ginta.app/docs/",
+  "privacyPolicyUrl": "https://ginta.app/legal/privacy/",
+  "termsOfServiceUrl": "https://ginta.app/legal/terms/"
+}

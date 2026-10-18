@@ -1,0 +1,17 @@
+{
+  "name": "ginta",
+  "owner": {
+    "name": "Povilas Adomas Brukas",
+    "email": "support@ginta.app"
+  },
+  "metadata": {
+    "description": "Ginta: build and host websites from Claude Code."
+  },
+  "plugins": [
+    {
+      "name": "ginta",
+      "source": "./",
+      "description": "Build, publish and edit websites for small businesses: pages, contact forms, menus, bookings, visitor stats and custom domains, hosted on yourname.ginta.page."
+    }
+  ]
+}

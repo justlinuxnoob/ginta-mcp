@@ -1,0 +1,10 @@
+{
+  "name": "ginta",
+  "version": "1.0.0",
+  "description": "Build, publish and edit websites for small businesses from Gemini CLI: pages, contact forms, menus, bookings, visitor stats and custom domains, hosted on yourname.ginta.page.",
+  "mcpServers": {
+    "ginta": {
+      "httpUrl": "https://ginta.app/mcp"
+    }
+  }
+}
